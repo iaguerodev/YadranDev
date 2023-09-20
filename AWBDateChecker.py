@@ -8,14 +8,14 @@ from selenium.common.exceptions import TimeoutException
 import os
 import sys
 
+# Initialize a WebDriver (Chrome, in this case)
+driver = webdriver.Chrome()
+
 # Get the directory where the Python script is located
 script_directory = os.path.dirname(sys.argv[0])
 
 # Set the path to your Excel file (assuming it's in the same directory)
 excel_file_path = os.path.join(script_directory, 'LISTA MANIFIESTO+ETD.xlsx')
-
-# Initialize a WebDriver (Chrome, in this case)
-driver = webdriver.Chrome()
 
 # Load the Excel file with write permissions (even if it's open)
 workbook = openpyxl.load_workbook(excel_file_path, read_only=False)
@@ -24,6 +24,7 @@ sheet = workbook.active
 # Get the year from cell I2 (assuming I2 contains the year)
 year_cell = sheet['I2']
 year = year_cell.value
+
 
 # Start from the second row (row 2) assuming you have headers in row 1
 for row_index, row in enumerate(sheet.iter_rows(min_row=2, max_col=1, values_only=True), start=2):
@@ -45,7 +46,7 @@ for row_index, row in enumerate(sheet.iter_rows(min_row=2, max_col=1, values_onl
 
         try:
             # Wait for the date to appear (adjust the wait time as needed)
-            wait = WebDriverWait(driver, 1)
+            wait = WebDriverWait(driver, 10)
             date_element = wait.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "20")]')))
 
             # Extract the date text from the web and write it to column D (YYYY-MM-DD format)
@@ -61,21 +62,13 @@ for row_index, row in enumerate(sheet.iter_rows(min_row=2, max_col=1, values_onl
                 formatted_date_b = date_b.strftime("%Y-%m-%d")
             else:
                 try:
-                    date_b = datetime.strptime(date_b, "%A %d %b")  # Format: "TUESDAY 05 SEP"
-                    formatted_date_b = f"{year}-{date_b.strftime('%m-%d')}"
+                    date_b = datetime.strptime(date_b, "%d/%m/%Y")  # Format: "dd/mm/yyyy"
+                    formatted_date_b = date_b.strftime("%Y-%m-%d")
                 except ValueError:
                     formatted_date_b = ""
                     
             cell_c = sheet.cell(row=row_index, column=3)
             cell_c.value = formatted_date_b
-
-            # Check if the date in column C is different from column D
-            date_c = sheet.cell(row=row_index, column=3).value
-            date_d = sheet.cell(row=row_index, column=4).value
-            if date_c != date_d:
-                sheet.cell(row=row_index, column=5, value="YES")
-            else:
-                sheet.cell(row=row_index, column=5, value="NO")
 
         except TimeoutException:
             # Check if the message "No se encontraron Guías Aéreas" is present
@@ -83,6 +76,16 @@ for row_index, row in enumerate(sheet.iter_rows(min_row=2, max_col=1, values_onl
                 sheet.cell(row=row_index, column=5, value="NO FOUND")
             else:
                 sheet.cell(row=row_index, column=5, value="ERROR")
+
+# Compare the dates in columns C and D
+for row in sheet.iter_rows(min_row=2, max_col=4):
+    date_c = row[2].value
+    date_d = row[3].value
+
+    if date_c != date_d:
+        sheet.cell(row=row[0].row, column=5, value="YES")
+    else:
+        sheet.cell(row=row[0].row, column=5, value="NO")
 
 # Save the Excel file
 workbook.save(excel_file_path)
