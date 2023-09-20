@@ -73,7 +73,7 @@ for row in sheet.iter_rows(min_row=2, values_only=True):  # Assuming data starts
     guardar_button.click()
 
     # Sleep for a few seconds to allow the changes to save (you can adjust this as needed)
-    time.sleep(5)
+    time.sleep(1)
 
 # Close the web driver and Excel file when done
 driver.quit()
