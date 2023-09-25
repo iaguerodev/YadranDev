@@ -47,7 +47,7 @@ for row_index, row in enumerate(sheet.iter_rows(min_row=2, max_col=1, values_onl
         try:
             # Wait for the date to appear (adjust the wait time as needed)
             wait = WebDriverWait(driver, 10)
-            date_element = wait.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "20")]')))
+            date_element = wait.until(EC.presence_of_element_located((By.XPATH, '//td[contains(text(), "20")][contains(text(), "-")]')))
 
             # Extract the date text from the web and write it to column D (YYYY-MM-DD format)
             date_text = date_element.text.strip()
