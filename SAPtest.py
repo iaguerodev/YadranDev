@@ -254,7 +254,7 @@ def main():
                 time.sleep(1)
 
                 # Press the 'Tab' key six times
-                pyautogui.press('tab', presses=6)  # Press 'Tab' six times
+                pyautogui.press('tab', presses=2)  # Press 'Tab' six times
 
                 # Read the value in column 'DEST' from the filtered Excel DataFrame
                 dest = cv_df.at[cv_df.index[0], 'DEST']
@@ -386,7 +386,9 @@ def main():
                         print("CV value is empty or not found in the Excel sheet.")
 
                     # After
-                    pyautogui.hotkey('tab')
+                    for _ in range(1):
+                        pyautogui.press('tab')
+
                     pyautogui.write("USD")
 
                     # Change to under tabs
@@ -397,10 +399,11 @@ def main():
                     for _ in range(8):
                         pyautogui.press('right')
 
-                    # Datos adicionales
-                    pyautogui.hotkey('enter')
-
                     time.sleep(1)
+                    pyautogui.press('enter')
+                    time.sleep(1)
+                    # Datos adicionales
+                    pyautogui.hotkey('tab')
 
                     # Code for AIRLINE
 
