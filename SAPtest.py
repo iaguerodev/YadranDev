@@ -6,7 +6,6 @@ import pandas as pd
 import os
 import pyperclip  # Import the pyperclip library for clipboard operations
 import xlwings as xw
-import openpyxl
 
 # Constants
 EXCEL_FILE_NAME = "CVAWB.xlsx"
@@ -66,6 +65,7 @@ AIRLINE_MAPPING = {
     'UNITED': 'U0001',
     'UPS': 'U0002'
 }
+
 # Destination code mappings
 DEST_CODE_MAPPING = {
     'TLV': 'ZCA064',
@@ -116,9 +116,8 @@ def copy_to_clipboard(text):
 def create_new_excel_file():
     # Get the directory where the Python script is located
     script_directory = os.path.dirname(os.path.abspath(__file__))
-    new_excel_file_path = os.path.join(script_directory, NEW_EXCEL_FILE_NAME)
+    new_excel_file_path = os.path.join(script_directory, EXCEL_FILE_NAME)
     return new_excel_file_path
-
 
 # Function to automate the SAP input
 def automate_sap_input():
@@ -202,7 +201,44 @@ def convert_date_format(date_str, year):
 
 # Main script
 def main():
-    try:
+    try:     
+        # Get the directory where the Python script is located
+        script_directory = os.path.dirname(os.path.abspath(__file__))
+
+        # Construct the full path to the Excel file
+        excel_file_path = os.path.join(script_directory, EXCEL_FILE_NAME)
+
+        if not os.path.exists(excel_file_path):
+            raise FileNotFoundError(f"Excel file '{EXCEL_FILE_NAME}' not found in the script directory.")
+
+        # Load the Excel file
+        df = pd.read_excel(excel_file_path, sheet_name=EXCEL_SHEET_NAME)
+
+        # Get the year from cell 'AÑO' and convert it to a 4-digit integer
+        year_cell = df.at[0, 'AÑO']
+
+        # Check if the year value is a valid 4-digit integer
+        if isinstance(year_cell, (int, float)) and 1000 <= year_cell <= 9999:
+            year = int(year_cell)
+        else:
+            raise ValueError("Invalid year value in cell 'AÑO'. Please ensure it's a 4-digit integer.")
+
+        # Debugging line to print the converted year
+        print(f"Year after conversion: {year}")
+
+        # Check if the 'Itin.trans' column is not empty before applying date conversion
+        if 'Itin.trans' in df.columns and not df['Itin.trans'].empty:
+            # Convert the date column 'Itin.trans' and store the results in 'Date conv' column 'Date conv'
+            df['Date conv'] = df['Itin.trans'].apply(lambda x: convert_date_format(x, year))
+
+            # Save the updated DataFrame back to the Excel file
+            df.to_excel(excel_file_path, sheet_name=EXCEL_SHEET_NAME, index=False)
+
+            print("Date conversion completed.")
+        else:
+            print("No 'Itin.trans' column found or it is empty. No date conversion performed.")
+
+        
         # Get the directory where the Python script is located
         script_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -297,15 +333,14 @@ def main():
                     # Read the value from the 'Date conv' column in Excel (header "Date conv")
                     date_from_column_date_conv = cv_df.at[cv_df.index[0], 'Date conv']
 
-                    # Copy the date value to the clipboard
-                    copy_to_clipboard(date_from_column_date_conv)
-
                     # Use Ctrl+V to paste the date value into the SAP field
                     pyautogui.hotkey('ctrl', 'v')
-
+                    
                     # After pasting the 'FLIGHT' value, press 'Tab' 5 times to navigate to the appropriate SAP field
-                    for _ in range(5):
+                    for _ in range(0):
                         pyautogui.press('tab')
+
+                    time.sleep(1)   
 
                     # Read the value from the 'Date conv' column in Excel (header "Date conv")
                     date_from_column_date_conv = cv_df.at[cv_df.index[0], 'Date conv']
@@ -317,7 +352,8 @@ def main():
                     pyautogui.hotkey('ctrl', 'v')
 
                     # Repeat the above steps 4 more times
-                    for _ in range(4):
+
+                    for _ in range(5):
                         # Move down again
                         pyautogui.press('down')
 
@@ -498,3 +534,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
