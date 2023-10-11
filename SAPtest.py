@@ -8,6 +8,18 @@ import pyperclip  # Import the pyperclip library for clipboard operations
 import xlwings as xw
 import unicodedata
 
+# Function to get the path to the Excel file based on whether it's a script or an executable
+def get_excel_file_path():
+    # Get the directory where the Python script is located
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    excel_file_path = os.path.join(script_directory, EXCEL_FILE_NAME)
+    
+    if not os.path.exists(excel_file_path):
+        # If the file doesn't exist in the script directory, try the current working directory
+        excel_file_path = os.path.join(os.getcwd(), EXCEL_FILE_NAME)
+
+    return excel_file_path
+
 # Constants
 EXCEL_FILE_NAME = "CVAWB.xlsx"
 INITIAL_SAP_WINDOW_TITLE = 'SAP Easy Access'
@@ -72,7 +84,9 @@ DEST_CODE_MAPPING = {
     'TLV': 'ZCA064',
     'HND': 'ZCA343',
     'KIX': 'ZCA074',
-    'NRT': 'ZCA075'
+    'NRT': 'ZCA075',
+    'LAX': 'ZCA122',
+    'MIA': 'ZCA125'
 }
 
 # Function to find and activate a SAP window by title
