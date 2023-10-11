@@ -6,6 +6,7 @@ import pandas as pd
 import os
 import pyperclip  # Import the pyperclip library for clipboard operations
 import xlwings as xw
+import unicodedata
 
 # Constants
 EXCEL_FILE_NAME = "CVAWB.xlsx"
@@ -112,12 +113,6 @@ def check_text_in_sap_field(text):
 def copy_to_clipboard(text):
     pyperclip.copy(text)
 
-# Function to create a new Excel file and return its full path
-def create_new_excel_file():
-    # Get the directory where the Python script is located
-    script_directory = os.path.dirname(os.path.abspath(__file__))
-    new_excel_file_path = os.path.join(script_directory, EXCEL_FILE_NAME)
-    return new_excel_file_path
 
 # Function to automate the SAP input
 def automate_sap_input():
@@ -155,7 +150,6 @@ def automate_sap_input():
     if not sap_window or sap_window.title != THIRD_SCREEN_TITLE:
         print(f"SAP window '{THIRD_SCREEN_TITLE}' not found. Exiting...")
         return False
-
     return True
 
 # Function to convert the date format
@@ -167,9 +161,9 @@ def convert_date_format(date_str, year):
         # Extract day, month, and numerical day from the date string
         parts = date_str.split()
         numerical_day = parts[-2]
-        month = parts[-1]
+        month = parts[-1].upper()  # Convert the month representation to uppercase for consistency
 
-        # Create a dictionary to map month names to numerical values (assuming English month names)
+        # Create a dictionary to map month names to numerical values (assuming English and Spanish month names)
         month_mapping = {
             'JAN': '01',
             'FEB': '02',
@@ -182,7 +176,31 @@ def convert_date_format(date_str, year):
             'SEP': '09',
             'OCT': '10',
             'NOV': '11',
-            'DEC': '12'
+            'DEC': '12',
+            'JANUARY': '01',
+            'FEBRUARY': '02',
+            'MARCH': '03',
+            'APRIL': '04',
+            'MAY': '05',
+            'JUNE': '06',
+            'JULY': '07',
+            'AUGUST': '08',
+            'SEPTEMBER': '09',
+            'OCTOBER': '10',
+            'NOVEMBER': '11',
+            'DECEMBER': '12',
+            'ENERO': '01',
+            'FEBRERO': '02',
+            'MARZO': '03',
+            'ABRIL': '04',
+            'MAYO': '05',
+            'JUNIO': '06',
+            'JULIO': '07',
+            'AGOSTO': '08',
+            'SEPTIEMBRE': '09',
+            'OCTUBRE': '10',
+            'NOVIEMBRE': '11',
+            'DICIEMBRE': '12',
         }
 
         # Check if the month abbreviation exists in the mapping
@@ -198,10 +216,9 @@ def convert_date_format(date_str, year):
     except Exception as e:
         return str(e)
 
-
-# Main script
+        # Main script
 def main():
-    try:     
+    try:
         # Get the directory where the Python script is located
         script_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -214,14 +231,20 @@ def main():
         # Load the Excel file
         df = pd.read_excel(excel_file_path, sheet_name=EXCEL_SHEET_NAME)
 
-        # Get the year from cell 'AÑO' and convert it to a 4-digit integer
-        year_cell = df.at[0, 'AÑO']
+        # Get the content of the 'AÑO' cell in the first row
+        ano_cell_content = str(df.at[0, 'AÑO'])  # Convert to a string
 
-        # Check if the year value is a valid 4-digit integer
-        if isinstance(year_cell, (int, float)) and 1000 <= year_cell <= 9999:
-            year = int(year_cell)
+        # Debugging line to print the content of the 'AÑO' cell
+        print(f"Content of 'AÑO' cell: '{ano_cell_content}'")
+
+        # Remove non-breaking space characters (ASCII 160) and strip leading/trailing whitespaces
+        ano_cell_content = unicodedata.normalize("NFKD", ano_cell_content).strip()
+
+        # Check if the content of the 'AÑO' cell starts with '202'
+        if isinstance(ano_cell_content, str) and ano_cell_content.startswith('202'):
+            year = int(ano_cell_content)
         else:
-            raise ValueError("Invalid year value in cell 'AÑO'. Please ensure it's a 4-digit integer.")
+            raise ValueError("Invalid year value in cell 'AÑO'. It should start with '202'.")
 
         # Debugging line to print the converted year
         print(f"Year after conversion: {year}")
@@ -238,17 +261,6 @@ def main():
         else:
             print("No 'Itin.trans' column found or it is empty. No date conversion performed.")
 
-        
-        # Get the directory where the Python script is located
-        script_directory = os.path.dirname(os.path.abspath(__file__))
-
-        # Construct the full path to the Excel file
-        excel_file_path = os.path.join(script_directory, EXCEL_FILE_NAME)
-
-        if not os.path.exists(excel_file_path):
-            raise FileNotFoundError(f"Excel file '{EXCEL_FILE_NAME}' not found in the script directory.")
-
-        # Load the Excel file
         df = pd.read_excel(excel_file_path)
 
         # Get the unique CV numbers from the 'CV' column in the Excel sheet
@@ -267,7 +279,6 @@ def main():
             sap_window = activate_sap_window(INITIAL_SAP_WINDOW_TITLE)
             if not sap_window:
                 print(f"Failed to find the '{INITIAL_SAP_WINDOW_TITLE}' window. Exiting...")
-                return
 
             # Automate SAP input
             if not automate_sap_input():
@@ -333,14 +344,15 @@ def main():
                     # Read the value from the 'Date conv' column in Excel (header "Date conv")
                     date_from_column_date_conv = cv_df.at[cv_df.index[0], 'Date conv']
 
+                    # Copy the date value to the clipboard
+                    copy_to_clipboard(date_from_column_date_conv)
+
                     # Use Ctrl+V to paste the date value into the SAP field
                     pyautogui.hotkey('ctrl', 'v')
-                    
-                    # After pasting the 'FLIGHT' value, press 'Tab' 5 times to navigate to the appropriate SAP field
-                    for _ in range(0):
-                        pyautogui.press('tab')
 
-                    time.sleep(1)   
+                    # After pasting the 'FLIGHT' value, press 'Tab' 5 times to navigate to the appropriate SAP field
+                    for _ in range(5):
+                        pyautogui.press('tab')
 
                     # Read the value from the 'Date conv' column in Excel (header "Date conv")
                     date_from_column_date_conv = cv_df.at[cv_df.index[0], 'Date conv']
@@ -352,8 +364,7 @@ def main():
                     pyautogui.hotkey('ctrl', 'v')
 
                     # Repeat the above steps 4 more times
-
-                    for _ in range(5):
+                    for _ in range(4):
                         # Move down again
                         pyautogui.press('down')
 
@@ -466,6 +477,7 @@ def main():
                     pyautogui.press('F10')
                     pyautogui.press('v')
                     time.sleep(1)
+                    pyautogui.hotkey('ctrl', 'a')
                     pyautogui.hotkey('ctrl', 'c')
 
                     # Check if the clipboard contains a value
@@ -534,5 +546,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
