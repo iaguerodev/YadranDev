@@ -8,17 +8,23 @@ import pyperclip  # Import the pyperclip library for clipboard operations
 import xlwings as xw
 import unicodedata
 
-# Function to get the path to the Excel file based on whether it's a script or an executable
-def get_excel_file_path():
-    # Get the directory where the Python script is located
-    script_directory = os.path.dirname(os.path.abspath(__file__))
-    excel_file_path = os.path.join(script_directory, EXCEL_FILE_NAME)
-    
-    if not os.path.exists(excel_file_path):
-        # If the file doesn't exist in the script directory, try the current working directory
-        excel_file_path = os.path.join(os.getcwd(), EXCEL_FILE_NAME)
+# Set the default location for the Excel file (relative path)
+DEFAULT_EXCEL_FILE = "CVAWB.xlsx"
 
-    return excel_file_path
+# Try to find the Excel file in the current working directory
+excel_file_path = os.path.join(os.getcwd(), DEFAULT_EXCEL_FILE)
+
+if not os.path.exists(excel_file_path):
+    print(f"Excel file not found in the current working directory. Trying default location...")
+    
+    # If not found, try the default location
+    default_excel_path = os.path.join(os.path.dirname(__file__), DEFAULT_EXCEL_FILE)
+    
+    if os.path.exists(default_excel_path):
+        excel_file_path = default_excel_path
+    else:
+        print(f"Excel file not found in the default location.")
+    print(f"Excel file path: {excel_file_path}")
 
 # Constants
 EXCEL_FILE_NAME = "CVAWB.xlsx"
@@ -166,6 +172,7 @@ def automate_sap_input():
         return False
     return True
 
+
 # Function to convert the date format
 def convert_date_format(date_str, year):
     try:
@@ -256,12 +263,16 @@ def main():
 
         # Check if the content of the 'AÑO' cell starts with '202'
         if isinstance(ano_cell_content, str) and ano_cell_content.startswith('202'):
-            year = int(ano_cell_content)
+            year = int(float(ano_cell_content))  # Corrected conversion to handle '2023.0'
         else:
             raise ValueError("Invalid year value in cell 'AÑO'. It should start with '202'.")
 
         # Debugging line to print the converted year
         print(f"Year after conversion: {year}")
+
+        # Use the 'convert_date_format' function with the 'year' value
+        date_result = convert_date_format('Your Date String', year)
+        # 'Your Date String' should be replaced with the actual date string you want to convert
 
         # Check if the 'Itin.trans' column is not empty before applying date conversion
         if 'Itin.trans' in df.columns and not df['Itin.trans'].empty:
