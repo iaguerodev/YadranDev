@@ -66,7 +66,7 @@ AIRLINE_MAPPING = {
     'GOL': 'G0001',
     'IBERIA': 'I0001',
     'JETSMART': 'J0001',
-    'KAIR': 'K0001',
+    'KOREAN': 'K0001',
     'KALITAIR': 'K0002',
     'KLM': 'K0003',
     'LATAM': 'L0001',
