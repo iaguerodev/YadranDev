@@ -38,10 +38,11 @@ if session.Children.Count < 0:
 session.findById("wnd[0]").resizeWorkingPane(95, 26, False)
 
 # Access the relevant nodes in SAP GUI
-session.findById("wnd[0]/usr/cntlIMAGE_CONTAINER/shellcont/shell/shellcont[0]/shell").selectedNode = "F00007"
-session.findById("wnd[0]/usr/cntlIMAGE_CONTAINER/shellcont/shell/shellcont[0]/shell").doubleClickNode("F00007")
-
-
+# Set the working pane dimensions
+#Enter transaction
+session.findById("wnd[0]").resizeWorkingPane(118, 27, 0)  # Use 0 instead of False
+session.findById("wnd[0]/tbar[0]/okcd").text = "/nVA03"
+session.findById("wnd[0]").sendVKey(0)
 
 # Iterate through rows in Excel
 for row in worksheet.iter_rows(min_row=2, values_only=True):
@@ -83,8 +84,6 @@ for row in worksheet.iter_rows(min_row=2, values_only=True):
     copied_text = pyperclip.paste()
     if copied_text == f"PI {cv_value} {client_name}":
         print(f"Successfully typed: {copied_text}")
-    else:
-        print(f"Failed to type: PI {cv_value} {client_name}")
 
     # Press enter to save the document
     pyautogui.press('enter')
