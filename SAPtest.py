@@ -355,6 +355,9 @@ def main():
                     for _ in range(3):
                         pyautogui.press('tab')
 
+                    # Wait for 1 second
+                    time.sleep(1)
+
                     # Copy the 'FLIGHT' value from the filtered Excel DataFrame to the clipboard
                     flight_value = cv_df.at[cv_df.index[0], 'FLIGHT']
                     copy_to_clipboard(flight_value)
@@ -417,7 +420,9 @@ def main():
                     # After
                     pyautogui.hotkey('enter')
 
-                    for _ in range(5):
+                    time.sleep(1)
+
+                    for _ in range(3):
                         pyautogui.press('tab')
 
                     # Copy the 'CV' value from the filtered Excel DataFrame (assuming it's in column A with a header 'CV')
@@ -495,6 +500,7 @@ def main():
                     # Save Air Transport
                     time.sleep(1)
                     pyautogui.hotkey('ctrl', 's')
+                    time.sleep(1)
                     pyautogui.press('enter')
                     pyautogui.press('enter')
                     pyautogui.press('enter')
