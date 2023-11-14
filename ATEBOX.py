@@ -5,16 +5,11 @@ from selenium.webdriver.common.keys import Keys
 import os
 import time
 
-# Get the directory where the script is located
-script_directory = os.path.dirname(os.path.abspath(__file__))
 
-# Construct the relative path to the Excel file
-excel_filename = "AWLIST.xlsx"
-excel_file_path = os.path.join(script_directory, excel_filename)
-
-# Open the Excel file
-workbook = openpyxl.load_workbook(excel_file_path)
-sheet = workbook.active
+# Load Excel data
+excel_file = "AWLIST.xlsx"
+workbook = openpyxl.load_workbook(excel_file, data_only=True)
+worksheet = workbook.active
 
 # Set up the web driver (make sure the Chrome WebDriver executable is in your system's PATH)
 driver = webdriver.Chrome()
@@ -42,7 +37,7 @@ time.sleep(5)
 base_url = "http://192.168.6.233/etbox_yadran/aspnet_vb/ComexContratoVenta.aspx?iIdContratoVenta=5555&esCierre="
 
 # Loop through Excel rows and update the web page
-for row in sheet.iter_rows(min_row=2, values_only=True):  # Assuming data starts from row 2
+for row in worksheet.iter_rows(min_row=2, values_only=True):  # Assuming data starts from row 2
     order_number = row[0]  # Assuming order number is in the first column (column A)
     new_url = base_url.replace("Venta=5555", f"Venta={order_number}")
 
