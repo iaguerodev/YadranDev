@@ -5,12 +5,15 @@ from selenium.webdriver.common.keys import Keys
 import os
 import time
 
+# Get the directory of the script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the path to the Excel file in the same directory
+excel_file = os.path.join(script_dir, "AWLIST.xlsx")
 
 # Load Excel data
-excel_file = "AWLIST.xlsx"
 workbook = openpyxl.load_workbook(excel_file, data_only=True)
 worksheet = workbook.active
-
 # Set up the web driver (make sure the Chrome WebDriver executable is in your system's PATH)
 driver = webdriver.Chrome()
 
