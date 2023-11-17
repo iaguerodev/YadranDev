@@ -104,7 +104,7 @@ def activate_sap_window(window_title):
             return sap_window[0]
         else:
             print(f"SAP window '{window_title}' not found. Retrying...")
-            time.sleep(2)
+            time.sleep(1)
 
 # Function to get the FF code based on FF name
 def get_ff_code(ff_name):
@@ -503,7 +503,7 @@ def main():
                     time.sleep(1)
                     pyautogui.press('enter')
                     pyautogui.press('enter')
-                    pyautogui.press('enter')
+
                     time.sleep(1)
                     pyautogui.press('F10')
                     pyautogui.press('v')
