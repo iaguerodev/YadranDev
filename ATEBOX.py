@@ -18,7 +18,7 @@ worksheet = workbook.active
 driver = webdriver.Chrome()
 
 # URL of the login page
-login_url = "http://192.168.6.233/etbox_yadran/aspnet_vb/index.aspx"
+login_url = "URL"
 
 # Navigate to the login page
 driver.get(login_url)
