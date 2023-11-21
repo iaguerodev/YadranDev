@@ -1,2 +1,2 @@
 # YadranDev
-Bots made for task automation
+Scripts made for tasks automation
