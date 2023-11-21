@@ -92,7 +92,8 @@ DEST_CODE_MAPPING = {
     'KIX': 'ZCA074',
     'NRT': 'ZCA075',
     'LAX': 'ZCA122',
-    'MIA': 'ZCA125'
+    'MIA': 'ZCA125',
+    'LCA': 'ZCA281'
 }
 
 # Function to find and activate a SAP window by title
