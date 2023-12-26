@@ -6,8 +6,44 @@ import pygetwindow as gw
 import openpyxl
 import os
 from datetime import datetime, timedelta
+import re
+from openpyxl import load_workbook
+import pandas as pd
+
 
 ## I-AGUERO ## BOT FRESH USA ##
+
+def clean_and_format_value(value):
+    if isinstance(value, str):
+        cleaned_value = value.replace('$', '').replace('/', '').replace('cs', '').replace('.', ',').strip()
+        return cleaned_value
+    else:
+        # If the value is not a string, return it as is
+        return value
+
+
+
+# Open the Excel file
+excel_file_path = "PO.xlsx"  # Change this if your Excel file has a different name
+workbook = openpyxl.load_workbook(excel_file_path)
+
+# Select the appropriate sheet, assuming it's the first sheet
+sheet = workbook.active
+
+# Access and manipulate the 'PRECIO' column (assuming it's in column K)
+for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row, min_col=11, max_col=11):
+    for cell in row:
+        # Perform the desired manipulations
+        cleaned_value = clean_and_format_value(cell.value)
+
+        # Update the cell value with the cleaned value
+        cell.value = cleaned_value
+
+# Save the changes
+workbook.save(excel_file_path)
+
+    
+
 
 # Function to get the FF code based on FF name
 def get_ff_code(ff_name):
@@ -273,7 +309,7 @@ time.sleep(1)
 
 # Simulate pressing the F3 key
 session.findById("wnd[0]").sendVKey(3)
-
+time.sleep(3)
 
 ########################     INGRESO MATERIAL     ####################################
 ######################################################################################
@@ -291,12 +327,80 @@ criteria_and_values = {
     ("D PBI / scl-OFF", "3-4", 16): "12000680",
     ("D PBI / scl-OFF", "4-5", 16): "12000681",
 
-    
+    ("D PBI / scl-OFF", "2.0-2.5", 16): "12000970",
+    ("D PBI / scl-OFF", "2.5-3.0", 16): "12000971",
+    ("D PBI / scl-OFF", "3.0-3.5", 16): "12000973",
+    ("D PBI / scl-OFF", "3.5-4.0", 16): "12000974",
 
+    # fillets TD PBO x 16 Descamado
+    ("D / scl-OFF", "1-2", 16): "12000314",
+    ("D / scl-OFF", "2-3", 16): "12000187",
+    ("D / scl-OFF", "3-4", 16): "12000192",
+    ("D / scl-OFF", "4-5", 16): "12000186",
 
-    #Portions
+    # fillets TD PBO x 36 Descamado
+    ("D / scl-OFF", "1-2", 36): "12000312",
+    ("D / scl-OFF", "2-3", 36): "12000737",
+    ("D / scl-OFF", "3-4", 36): "12000193",
+    ("D / scl-OFF", "4-5", 36): "12000207",
+
+    # fillets TD PBO x 36 Descamado
+    ("D", "1-2", 36): "12000279",
+    ("D", "2-3", 36): "12000188",
+    ("D", "3-4", 36): "12000184",
+    ("D", "4-5", 36): "12000189",
+
+    # fillets 1-4
+    ("D / scl-OFF", "1-4", 36): "12000914",
+    ("D", "1-4", 36): "12000913",
+
+    # fillets x 12 PBO con escama
+    ("D", "1-2", 12): "12000877",
+    ("D", "2-3", 12): "12000200",
+    ("D", "3-4", 12): "12000199",
+    ("D", "4-5", 12): "12000309",
+
+    # fillets x 12 PBO SIN escama
+    ("D / scl-OFF", "1-2", 12): "12000915",
+    ("D / scl-OFF", "3-4", 12): "12000373",
+    ("D / scl-OFF", "4-5", 12): "12001125",
+
+    # TRIM E x 12
+    ("E", "2-3", 12): "12000307",
+    ("E", "3-4", 12): "12000330",
+
+    # TRIM E x 36
+    ("E", "2-3", 36): "12000250",
+    ("E", "3-4", 36): "12000190",
+
+    # HON 
+    ("HG", "10-12", 35): "12000458",
+    ("HON", "16+", 55): "12000387",
+    ("HON", "14-16", 55): "12000368",
+    ("HON", "8-10", 55): "12000687",
+    ("HON", "8-12", 25): "12000912",
+
+    # Portions
+    ("Porc. Bias & SwS", "7 oz", 11): "12000882",
+    ("Porc. Bias & SwS", "9 oz", 11): "12000881",
     ("Porciones C/Piel scl-OFF", "5-6 oz RL", 21): "12000396",
-    ("Mignon FIX", "min 6.00 oz", 5) : "12000210"
+    ("Mignon FIX", "min 6.00 oz", 5) : "12000210",
+
+    # SCL-ON
+    ("D / scl-ON", "1-2", 16): "12000901",
+    ("D / scl-ON", "2-3", 16): "12000755",
+    ("D / scl-ON", "3-4", 16): "12000756",
+    ("D / scl-ON", "4-5", 16): "12000754",
+
+    ("D PBI / scl-ON", "1-2", 16): "12000900",
+    ("D PBI / scl-ON", "2-3", 16): "12000289",
+    ("D PBI / scl-ON", "3-4", 16): "12000290",
+    ("D PBI / scl-ON", "4-5", 16): "12000291",
+
+    ("D / scl-ON", "2-3", 12): "12000904",
+
+    ("E  -  PBI - Clean Cut", "2-3", 36): "12001123",
+    ("E  -  PBI - Clean Cut", "3-4", 36): "12001124"
 
 }
 
@@ -409,6 +513,9 @@ try:
         command = "=T\\05"  # Use the exact command "=T\05"
         session.findById("wnd[0]/tbar[0]/okcd").text = command
         session.findById("wnd[0]/tbar[0]/btn[0]").press()
+
+
+        # price
 
         # Set Precio Finder
         # Assuming K column in Excel represents the prices
