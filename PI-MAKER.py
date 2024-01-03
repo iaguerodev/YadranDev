@@ -1,3 +1,4 @@
+import os
 import win32com.client
 import pyautogui
 import pyperclip
@@ -8,21 +9,20 @@ import openpyxl
 # Function to check if the active window's title contains a specific substring
 def is_window_title_containing(substring):
     active_window = gw.getActiveWindow()
-    if substring in active_window.title:
-        return True
-    return False
+    return substring in active_window.title
 
-# Function to refocus on sap window
-def focus_sap_window(window_title):
-    sap_window = gw.getWindowsWithTitle(window_title)
-    if sap_window:
-        sap_window[0].activate()
+# Get the directory of the current script
+script_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Define the Excel file path
+excel_file = os.path.join(script_directory, "LIST.xlsx")
+
+# Print the absolute path of the Excel file
+print(f"Absolute path of 'LIST.xlsx': {excel_file}")
 
 # Load Excel data
-excel_file = "LIST.xlsx"
 workbook = openpyxl.load_workbook(excel_file, data_only=True)
 worksheet = workbook.active
-
 
 # Initialize SAP GUI Scripting
 SapGuiAuto = win32com.client.GetObject("SAPGUI")
@@ -73,6 +73,7 @@ for row in worksheet.iter_rows(min_row=2, values_only=True):
     # Wait for 2 seconds (you can adjust this as needed)
     time.sleep(2)
 
+
     # Check if the active window's title contains "Guardar impresión como"
     if is_window_title_containing("Guardar impresión como"):
         pyautogui.typewrite(f"PI {cv_value} {client_name}")
@@ -91,6 +92,4 @@ for row in worksheet.iter_rows(min_row=2, values_only=True):
     # Specify the SAP window title to focus on
     sap_window_title = "Visualizar documentos de ventas"
 
-    # Call the function to focus on the SAP window
-    focus_sap_window(sap_window_title)
 
