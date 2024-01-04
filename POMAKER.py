@@ -12,6 +12,8 @@ import pandas as pd
 
 
 ## I-AGUERO ## BOT FRESH USA ##
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+print(f"Current working directory: {os.getcwd()}")
 
 def clean_and_format_value(value):
     if isinstance(value, str):
@@ -21,11 +23,10 @@ def clean_and_format_value(value):
         # If the value is not a string, return it as is
         return value
 
-
-
 # Open the Excel file
 excel_file_path = "PO.xlsx"  # Change this if your Excel file has a different name
 workbook = openpyxl.load_workbook(excel_file_path)
+print(os.path.abspath(excel_file_path))
 
 # Select the appropriate sheet, assuming it's the first sheet
 sheet = workbook.active
