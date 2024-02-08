@@ -93,7 +93,16 @@ DEST_CODE_MAPPING = {
     'NRT': 'ZCA075',
     'LAX': 'ZCA122',
     'MIA': 'ZCA125',
-    'LCA': 'ZCA281'
+    'LCA': 'ZCA281',
+
+    #CHINA
+    'CKG': 'ZCA023',
+    'PVG': 'ZCA032',
+    'CAN': 'ZCA026',
+    'PEK': 'ZCA021',
+    'CTU': 'ZCA022',
+    'XMN': 'ZCA035'
+
 }
 
 # Function to find and activate a SAP window by title
@@ -158,7 +167,9 @@ def automate_sap_input():
     pyautogui.press('tab')
 
     # Simulate typing 'ZT03' into the selected field
-    pyautogui.write('ZT03')
+    pyautogui.write('Tran.Aéreo')
+
+    time.sleep(2)
 
     # Press 'Enter' to submit the input
     pyautogui.press('enter')
@@ -578,3 +589,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
