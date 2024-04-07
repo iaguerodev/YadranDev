@@ -25,10 +25,10 @@ driver.get(login_url)
 
 # Fill in the username and password fields using the By class
 username_field = driver.find_element(By.ID, "txtUserName")
-username_field.send_keys("iaguero")
+username_field.send_keys("USER")
 
 password_field = driver.find_element(By.ID, "txtUserPass")
-password_field.send_keys("iaguero17")
+password_field.send_keys("PASSWORD")
 
 # Submit the login form
 password_field.send_keys(Keys.RETURN)
