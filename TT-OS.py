@@ -3,7 +3,7 @@ import win32com.client
 import pandas as pd
 import time
 
-# Get the directory of the script
+# Get the directory of the script // GET TT
 script_dir = os.path.dirname(os.path.abspath(__file__))
 excel_file_path = os.path.join(script_dir, 'TT.xlsx')
 
