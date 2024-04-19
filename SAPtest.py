@@ -94,6 +94,7 @@ DEST_CODE_MAPPING = {
     'LAX': 'ZCA122',
     'MIA': 'ZCA125',
     'LCA': 'ZCA281',
+    'FUK': 'ZCA358',
 
     #CHINA
     'CKG': 'ZCA023',
@@ -114,7 +115,7 @@ def activate_sap_window(window_title):
             return sap_window[0]
         else:
             print(f"SAP window '{window_title}' not found. Retrying...")
-            time.sleep(1)
+            time.sleep(2)
 
 # Function to get the FF code based on FF name
 def get_ff_code(ff_name):
@@ -152,7 +153,8 @@ def automate_sap_input():
     pyautogui.press('enter')
 
     # Wait for a moment to give time for SAP to process the input
-    time.sleep(1)
+    time.sleep(3)
+
 
     # Ensure the SAP window is still active
     sap_window = gw.getActiveWindow()
@@ -175,7 +177,7 @@ def automate_sap_input():
     pyautogui.press('enter')
 
     # Wait for a moment to give time for SAP to process the input
-    time.sleep(1)
+    time.sleep(2)
 
     # Ensure the SAP window is still active
     sap_window = gw.getActiveWindow()
@@ -335,7 +337,7 @@ def main():
                 pyautogui.press('enter')  # Press 'Enter' after typing the FF code
 
                 # Wait for 1 second
-                time.sleep(1)
+                time.sleep(2)
 
                 # Press the 'Tab' key six times
                 pyautogui.press('tab', presses=2)  # Press 'Tab' six times
@@ -352,7 +354,7 @@ def main():
                     pyautogui.press('enter')  # Press 'Enter' after typing the SAP code
 
                     # Wait for 1 second
-                    time.sleep(1)
+                    time.sleep(2)
 
                     # Press the 'Tab' key six times
                     pyautogui.press('tab', presses=6)  # Press 'Tab' six times
@@ -368,7 +370,7 @@ def main():
                         pyautogui.press('tab')
 
                     # Wait for 1 second
-                    time.sleep(1)
+                    time.sleep(2)
 
                     # Copy the 'FLIGHT' value from the filtered Excel DataFrame to the clipboard
                     flight_value = cv_df.at[cv_df.index[0], 'FLIGHT']
