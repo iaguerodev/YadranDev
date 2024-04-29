@@ -136,7 +136,7 @@ def get_sap_code(dest):
 
 # Function to check if the specified text is present in the SAP field
 def check_text_in_sap_field(text):
-    time.sleep(2)  # Wait for the field to be ready
+    time.sleep(1)  # Wait for the field to be ready
     field_text = pyautogui.typewrite(text)
     return field_text is not None
 
@@ -153,7 +153,7 @@ def automate_sap_input():
     pyautogui.press('enter')
 
     # Wait for a moment to give time for SAP to process the input
-    time.sleep(3)
+    time.sleep(2)
 
 
     # Ensure the SAP window is still active
@@ -354,7 +354,7 @@ def main():
                     pyautogui.press('enter')  # Press 'Enter' after typing the SAP code
 
                     # Wait for 1 second
-                    time.sleep(2)
+                    time.sleep(1)
 
                     # Press the 'Tab' key six times
                     pyautogui.press('tab', presses=6)  # Press 'Tab' six times
@@ -370,7 +370,7 @@ def main():
                         pyautogui.press('tab')
 
                     # Wait for 1 second
-                    time.sleep(2)
+                    time.sleep(1)
 
                     # Copy the 'FLIGHT' value from the filtered Excel DataFrame to the clipboard
                     flight_value = cv_df.at[cv_df.index[0], 'FLIGHT']
@@ -402,6 +402,8 @@ def main():
                     # Copy the date value to the clipboard
                     copy_to_clipboard(date_from_column_date_conv)
 
+                    time.sleep(0.3)
+
                     # Use Ctrl+V to paste the date value into the SAP field
                     pyautogui.hotkey('ctrl', 'v')
 
@@ -410,14 +412,18 @@ def main():
                         # Move down again
                         pyautogui.press('down')
 
+                        time.sleep(0.3)
+
                         # Use Ctrl+V to paste the date value into the SAP field
                         pyautogui.hotkey('ctrl', 'v')
+
+                        time.sleep(0.3)
 
                     # After pasting the 'FLIGHT' value, press 'Tab' 5 times to navigate to the appropriate SAP field
                     pyautogui.hotkey('ctrl', 'down')
 
                     # Wait for a moment to give time for SAP to process the input
-                    time.sleep(1)
+                    time.sleep(0.5)
 
                     # After
                     pyautogui.hotkey('ctrl', 'left')
@@ -458,11 +464,13 @@ def main():
                             # Copy the integer CV value to the clipboard
                             copy_to_clipboard(cv_to_copy)
 
+                            time.sleep(0.5)
+
                             # Simulate a keyboard shortcut to paste (e.g., Ctrl+V)
                             keyboard.press_and_release('ctrl + v')
 
                             # Wait for a moment to ensure the value is pasted
-                            time.sleep(1)
+                            time.sleep(0.5)
 
                             # Check if the pasted CV value matches the expected 'CV' value
                             pasted_cv_value = pyperclip.paste()
