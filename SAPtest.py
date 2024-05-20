@@ -8,6 +8,9 @@ import pyperclip  # Import the pyperclip library for clipboard operations
 import xlwings as xw
 import unicodedata
 
+
+
+
 # Set the default location for the Excel file (relative path)
 DEFAULT_EXCEL_FILE = "CVAWB.xlsx"
 
@@ -82,7 +85,8 @@ AIRLINE_MAPPING = {
     'SW': 'S0003',
     'TURKISH': 'T0001',
     'UNITED': 'U0001',
-    'UPS': 'U0002'
+    'UPS': 'U0002',
+    'SWISS': 'S0003'
 }
 
 # Destination code mappings
@@ -370,11 +374,14 @@ def main():
                         pyautogui.press('tab')
 
                     # Wait for 1 second
-                    time.sleep(1)
+                    time.sleep(0.2)
 
                     # Copy the 'FLIGHT' value from the filtered Excel DataFrame to the clipboard
                     flight_value = cv_df.at[cv_df.index[0], 'FLIGHT']
                     copy_to_clipboard(flight_value)
+
+                                        # Wait for 1 second
+                    time.sleep(0.2)
 
                     # Use Ctrl+V to paste the copied 'FLIGHT' value into the SAP field
                     pyautogui.hotkey('ctrl', 'v')
@@ -402,7 +409,7 @@ def main():
                     # Copy the date value to the clipboard
                     copy_to_clipboard(date_from_column_date_conv)
 
-                    time.sleep(0.3)
+                    time.sleep(0.2)
 
                     # Use Ctrl+V to paste the date value into the SAP field
                     pyautogui.hotkey('ctrl', 'v')
@@ -412,12 +419,12 @@ def main():
                         # Move down again
                         pyautogui.press('down')
 
-                        time.sleep(0.3)
+                        time.sleep(0.1)
 
                         # Use Ctrl+V to paste the date value into the SAP field
                         pyautogui.hotkey('ctrl', 'v')
 
-                        time.sleep(0.3)
+                        time.sleep(0.1)
 
                     # After pasting the 'FLIGHT' value, press 'Tab' 5 times to navigate to the appropriate SAP field
                     pyautogui.hotkey('ctrl', 'down')
