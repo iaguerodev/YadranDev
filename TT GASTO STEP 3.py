@@ -18,9 +18,11 @@ session = connection.Children(0)
 if session.Children.Count < 0:
     session = application.CreateObject("Session")
 
-
 # Load Excel file
 df = pd.read_excel(excel_file_path)
+
+# Convert column 'C' to string to avoid type issues
+df['C'] = df['C'].astype(str)
 
 # Keep track of encountered numbers and their corresponding results
 encountered_numbers = set()
@@ -69,7 +71,7 @@ for index, number in df['B'].items():
     encountered_numbers.add(number)
 
     # Update the Excel file with the result
-    df.at[index, 'C'] = result
+    df.at[index, 'C'] = str(result)
 
 # Save the updated DataFrame back to the Excel file
 df.to_excel(excel_file_path, index=False)
