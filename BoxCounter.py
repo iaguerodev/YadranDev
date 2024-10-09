@@ -106,6 +106,10 @@ def start_scraping(text_area):
         display_data(updated_data, text_area)
         time.sleep(300)  # Wait for 5 minutes before the next check
 
+# Function to stop the scraping process
+def stop_scraping():
+    root.destroy()
+
 # Main Logic
 if __name__ == "__main__":
     root = tk.Tk()
@@ -113,6 +117,9 @@ if __name__ == "__main__":
 
     text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=60, height=20, font=("Arial", 12))
     text_area.pack(padx=10, pady=10)
+
+    stop_button = tk.Button(root, text="Stop Process", command=stop_scraping)
+    stop_button.pack(pady=5)
 
     # Start the scraping in a separate thread
     scraping_thread = threading.Thread(target=start_scraping, args=(text_area,))
