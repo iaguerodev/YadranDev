@@ -7,6 +7,7 @@ import time
 import tkinter as tk
 from tkinter import scrolledtext
 from datetime import datetime
+import threading
 
 # Setup Selenium WebDriver
 chrome_options = Options()
@@ -88,13 +89,7 @@ def update_history(new_data):
     return updated_data
 
 # Function to Display Data in a Window
-def display_data(data):
-    root = tk.Tk()
-    root.title("Extracted Data History")
-
-    text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=60, height=20, font=("Arial", 12))
-    text_area.pack(padx=10, pady=10)
-
+def display_data(data, text_area):
     text_area.config(state=tk.NORMAL)
     text_area.delete('1.0', tk.END)  # Clear previous data
 
@@ -103,18 +98,25 @@ def display_data(data):
 
     text_area.config(state=tk.DISABLED)
 
-    root.mainloop()
+# Function to start the scraping process periodically
+def start_scraping(text_area):
+    while True:
+        scraped_data = scrape_data()
+        updated_data = update_history(scraped_data)
+        display_data(updated_data, text_area)
+        time.sleep(300)  # Wait for 5 minutes before the next check
 
 # Main Logic
 if __name__ == "__main__":
-    try:
-        while True:
-            scraped_data = scrape_data()
-            updated_data = update_history(scraped_data)
-            display_data(updated_data)
-            time.sleep(300)  # Wait for 5 minutes before the next check
-    except KeyboardInterrupt:
-        print("Stopping the scraper.")
-    finally:
-        if driver:
-            driver.quit()
+    root = tk.Tk()
+    root.title("Extracted Data History")
+
+    text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=60, height=20, font=("Arial", 12))
+    text_area.pack(padx=10, pady=10)
+
+    # Start the scraping in a separate thread
+    scraping_thread = threading.Thread(target=start_scraping, args=(text_area,))
+    scraping_thread.daemon = True
+    scraping_thread.start()
+
+    root.mainloop()
