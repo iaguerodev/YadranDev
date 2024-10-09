@@ -78,9 +78,8 @@ def update_history(new_data):
             if cv_number not in contract_history:
                 contract_history[cv_number] = []
 
-            # Check if there's a change in box count
-            if not contract_history[cv_number] or contract_history[cv_number][-1]["box_count"] != box_count:
-                contract_history[cv_number].append({"box_count": box_count, "timestamp": timestamp})
+            # Always add the current data with timestamp to history
+            contract_history[cv_number].append({"box_count": box_count, "timestamp": timestamp})
 
             # Format the history for display
             history = "\n".join([f"{entry['box_count']} {entry['timestamp']}" for entry in contract_history[cv_number]])
