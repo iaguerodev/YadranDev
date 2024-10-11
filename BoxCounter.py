@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from datetime import datetime
+from datetime import datetime, timedelta
 import threading
 
 # Setup Selenium WebDriver
@@ -99,8 +99,28 @@ def update_history(new_data):
             if not contract_history[cv_number] or contract_history[cv_number][-1]['box_count'] != box_count:
                 contract_history[cv_number].append({"box_count": box_count, "timestamp": timestamp})
 
+            # Calculate box per hour average
+            box_per_hour = "N/A"
+            if len(contract_history[cv_number]) > 1:
+                prev_entry = contract_history[cv_number][-2]
+                prev_time = datetime.strptime(prev_entry['timestamp'], "%H:%M %d/%m/%Y")
+                current_time = datetime.strptime(timestamp, "%H:%M %d/%m/%Y")
+                time_diff = (current_time - prev_time).total_seconds() / 3600
+                if time_diff > 0:
+                    prev_box_count = int(prev_entry['box_count'].split('/')[0])
+                    current_box_count = int(box_count.split('/')[0])
+                    box_per_hour = round((current_box_count - prev_box_count) / time_diff, 2)
+
+            # Calculate progress percentage
+            progress_percentage = "N/A"
+            try:
+                left_count, right_count = map(int, box_count.split('/'))
+                progress_percentage = f"{round((left_count / right_count) * 100, 2)}%" if right_count > 0 else "N/A"
+            except ValueError:
+                pass
+
             # Format the history for display
-            updated_data.append((cv_number, company_name, box_count, timestamp))
+            updated_data.append((cv_number, company_name, box_count, box_per_hour, progress_percentage, timestamp))
 
     # Save updated history
     with open(data_file, 'w') as file:
@@ -119,24 +139,23 @@ def display_data(data, tree):
     tree.delete(*tree.get_children())
 
     for item in data:
-        cv_number, company_name, box_count, timestamp = item
+        cv_number, company_name, box_count, box_per_hour, progress_percentage, timestamp = item
         tag = cv_number.replace(" ", "_")  # Create a unique tag for each CV number
 
         # Insert a new item or update existing one
-        tree.insert("", tk.END, values=(cv_number, company_name, box_count, timestamp), tags=(tag,))
+        tree.insert("", tk.END, values=(cv_number, company_name, box_count, box_per_hour, progress_percentage, timestamp), tags=(tag,))
 
         # Handle different formats of box_count
         try:
-            if ':' in box_count:  # If box_count contains a time (e.g., "15:44"), mark as dispatched
+            left_count, right_count = map(int, box_count.split('/'))
+            if left_count == right_count:
+                tree.tag_configure(tag, background="lightgreen")
+            elif left_count > right_count:
+                tree.tag_configure(tag, background="orange")
+            elif left_count == 0 and right_count == 0:
                 tree.tag_configure(tag, background="lightblue")
             else:
-                left_count, right_count = map(int, box_count.split('/'))
-                if left_count == right_count:
-                    tree.tag_configure(tag, background="lightgreen")
-                elif left_count > right_count:
-                    tree.tag_configure(tag, background="orange")
-                else:
-                    tree.tag_configure(tag, background="lightgray")
+                tree.tag_configure(tag, background="lightgray")
         except ValueError:
             # If box_count is not in the expected format, use a default background
             tree.tag_configure(tag, background="lightgray")
@@ -173,14 +192,14 @@ def on_tree_item_double_click(event):
 
         # Insert history items under the clicked CV
         for record in contract_history[cv_number]:
-            tree.insert(item_id, tk.END, values=("", "", record["box_count"], record["timestamp"]))
+            tree.insert(item_id, tk.END, values=("", "", record["box_count"], "", "", record["timestamp"]))
 
 # Main Logic
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Extracted Data History")
 
-    columns = ("CV Number", "Company Name", "Box Count", "Timestamp")
+    columns = ("CV Number", "Company Name", "Box Count", "Box/Hour Avg", "Progress %", "Timestamp")
     tree = ttk.Treeview(root, columns=columns, show="headings")
     for col in columns:
         tree.heading(col, text=col)
