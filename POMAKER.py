@@ -301,6 +301,8 @@ elif destination == "LAX":
     session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_HEAD/tabpT\\12/ssubSUBSCREEN_BODY:SAPMV45A:4312/sub8309:SAPMV45A:8309/cmbVBAK-ZDEST").key = "LOS ANGELES"
 elif destination == "JFK":
     session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_HEAD/tabpT\\12/ssubSUBSCREEN_BODY:SAPMV45A:4312/sub8309:SAPMV45A:8309/cmbVBAK-ZDEST").key = "NEW YORK"
+elif destination == "SEATTLE":
+    session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_HEAD/tabpT\\12/ssubSUBSCREEN_BODY:SAPMV45A:4312/sub8309:SAPMV45A:8309/cmbVBAK-ZDEST").key = "SEATTLE"    
 else:
     print("Unknown destination from Excel")
 
