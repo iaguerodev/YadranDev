@@ -113,8 +113,7 @@ def main():
                     print(f"Material seleccionado: {material}")
                 else:
                     print(f"Error: No se encontró el tipo de gelpack para el material {material_code}")
-                    fila += 1
-                    continue
+                    break
 
                 # Enfocar el campo de subposición antes de entrar a Datos Adicionales A
                 time.sleep(1)
@@ -154,8 +153,7 @@ def main():
                     session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\\13/ssubSUBSCREEN_BODY:SAPMV45A:4459/cmbVBAP-MVGR4").key = "015"
                 else:
                     print(f"Error: No se encontró el código para el material {material}")
-                    fila += 1
-                    continue
+                    break
                 session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\\13/ssubSUBSCREEN_BODY:SAPMV45A:4459/cmbVBAP-MVGR4").setFocus()
                 session.findById("wnd[0]").sendVKey(0)
                 print("Cantidad de hielo asignada correctamente.")
