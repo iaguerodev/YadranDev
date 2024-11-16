@@ -58,6 +58,7 @@ def main():
             "12000973": "gelpack 500 GR",
             "12000974": "gelpack 500 GR",
             "12000265": "gelpack 500 GR",
+            "12001209": "gelpack 500 GR",
             "12000210": "gelpack 250 GR",
             "12000966": "gelpack 750 GR",
             "12000967": "gelpack 750 GR",
