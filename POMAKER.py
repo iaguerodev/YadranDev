@@ -312,7 +312,13 @@ time.sleep(1)
 
 # Simulate pressing the F3 key
 session.findById("wnd[0]").sendVKey(3)
-time.sleep(3)
+time.sleep(1)
+try:
+            session.findById("wnd[0]").resizeWorkingPane(118, 36, False)
+            print("Ventana redimensionada correctamente.")
+except Exception as e:
+            print(f"Error al redimensionar la ventana: {e}")
+
 
 ########################     INGRESO MATERIAL     ####################################
 ######################################################################################
