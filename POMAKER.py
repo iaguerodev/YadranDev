@@ -398,7 +398,8 @@ criteria_and_values = {
     ("Porc. Bias", "7 oz", 11): "12000882",
     ("Porc. Bias", "9 oz", 11): "12000881",    
     ("Porciones C/Piel scl-OFF", "5-6 oz RL", 21): "12000396",
-    ("Mignon FIX", "min 6.00 oz", 5) : "12000210",
+    ("Mignon FIX", "min 6.00 oz", 5): "12000210",
+    ("Mignon FIX", "min 6.0 oz", 5): "12000210",
 
     # SCL-ON
     ("D / scl-ON", "1-2", 16): "12000901",
@@ -573,8 +574,8 @@ finally:
     po_workbook.close()
     #ejecuta script para gelpack/hielo
     os.system('python REFRIGERANTEMATERIALv2.py')
-    #sonido de windows al terminal
-    winsound.MessageBeep(winsound.MB_ICONASTERISK)
     #abre excel de nuevo
     excel_file_path = os.path.join(os.path.dirname(__file__), "PO.xlsx")
     os.startfile(excel_file_path)
+    #sonido de windows al terminal
+    winsound.MessageBeep(winsound.MB_ICONASTERISK)
