@@ -85,7 +85,7 @@ if session.Children.Count < 0:
 
 # Set the working pane dimensions
 #Enter transaction
-session.findById("wnd[0]").resizeWorkingPane(118, 27, 0)  # Use 0 instead of False
+session.findById("wnd[0]").maximize()  # Maximiza la ventana  # Use 0 instead of False
 session.findById("wnd[0]/tbar[0]/okcd").text = "/nVA01"
 session.findById("wnd[0]").sendVKey(0)
 
@@ -188,7 +188,7 @@ session.findById("wnd[0]").sendVKey(0)
 session.findById("wnd[0]").sendVKey(0)
 
 # Resize working pane and click "btnBT_HEAD"
-session.findById("wnd[0]").resizeWorkingPane(118, 27, False)
+session.findById("wnd[0]").maximize()  # Maximiza la ventana
 session.findById("wnd[0]/usr/subSUBSCREEN_HEADER:SAPMV45A:4021/btnBT_HEAD").press()
 
 # Select the "tabpT\07" tab - INTERLOCUTOR TAB
@@ -314,7 +314,7 @@ time.sleep(1)
 session.findById("wnd[0]").sendVKey(3)
 time.sleep(1)
 try:
-            session.findById("wnd[0]").resizeWorkingPane(118, 36, False)
+            session.findById("wnd[0]").maximize()  # Maximiza la ventana
             print("Ventana redimensionada correctamente.")
 except Exception as e:
             print(f"Error al redimensionar la ventana: {e}")
