@@ -20,76 +20,80 @@ def main():
 
         # Diccionario para asignar gelpack según el código de material
         material_gelpack = {
-            "12000882": "gelpack 500 GR",
-            "12000881": "gelpack 500 GR",
-            "12000678": "gelpack 500 GR",
-            "12000679": "gelpack 500 GR",
-            "12000680": "gelpack 500 GR",
-            "12000681": "gelpack 500 GR",
-            "12000396": "gelpack 500 GR",
-            "12000201": "gelpack 500 GR",
-            "12000202": "gelpack 500 GR",
-            "12000314": "gelpack 500 GR",
-            "12000187": "gelpack 500 GR",
-            "12000192": "gelpack 500 GR",
-            "12000186": "gelpack 500 GR",
-            "12000877": "gelpack 500 GR",
-            "12000200": "gelpack 500 GR",
-            "12000199": "gelpack 500 GR",
-            "12000309": "gelpack 500 GR",
-            "12000915": "gelpack 500 GR",
-            "12000307": "gelpack 500 GR",
-            "12000330": "gelpack 500 GR",
-            "12000901": "gelpack 500 GR",
-            "12000755": "gelpack 500 GR",
-            "12000756": "gelpack 500 GR",
-            "12000754": "gelpack 500 GR",
-            "12000900": "gelpack 500 GR",
-            "12000289": "gelpack 500 GR",
-            "12000290": "gelpack 500 GR",
-            "12000291": "gelpack 500 GR",
-            "12000904": "gelpack 500 GR",
-            "12000373": "gelpack 500 GR",
-            "12001125": "gelpack 500 GR",
-            "12001158": "gelpack 500 GR",
-            "12001159": "gelpack 500 GR",
-            "12000970": "gelpack 500 GR",
-            "12000971": "gelpack 500 GR",
-            "12000973": "gelpack 500 GR",
-            "12000974": "gelpack 500 GR",
-            "12000265": "gelpack 500 GR",
-            "12001209": "gelpack 500 GR",
-            "12000210": "gelpack 250 GR",
-            "12000966": "gelpack 750 GR",
-            "12000967": "gelpack 750 GR",
-            "12000968": "gelpack 750 GR",
-            "12000969": "gelpack 750 GR",
-            "12000975": "gelpack 750 GR",
-            "12000976": "gelpack 750 GR",
-            "12000977": "gelpack 750 GR",
-            "12000312": "gelpack 750 GR",
-            "12000737": "gelpack 750 GR",
-            "12000193": "gelpack 750 GR",
-            "12000207": "gelpack 750 GR",
-            "12000279": "gelpack 750 GR",
-            "12000188": "gelpack 750 GR",
-            "12000184": "gelpack 750 GR",
-            "12000189": "gelpack 750 GR",
-            "12000914": "gelpack 750 GR",
-            "12000913": "gelpack 750 GR",
-            "12000250": "gelpack 750 GR",
-            "12000190": "gelpack 750 GR",
-            "12001123": "gelpack 750 GR",
-            "12001124": "gelpack 750 GR",
-            "12001190": "gelpack 750 GR",
-            "12001191": "gelpack 750 GR",
-            "12001192": "gelpack 750 GR",
-            "12001193": "gelpack 750 GR",
-            "12000912": "gelpack 1000 KG",
-            "12000458": "gelpack 1000 KG",
-            "12000387": "gelpack 2000 KG",
-            "12000368": "gelpack 2000 KG",
-            "12000687": "gelpack 2000 KG"
+            "12000882": "gelpack 500 GR",  # 11 lbs
+            "12000881": "gelpack 500 GR",  # 11 lbs
+            "12000678": "gelpack 250 GR",  # 16 lbs
+            "12000679": "gelpack 250 GR",  # 16 lbs
+            "12000680": "gelpack 250 GR",  # 16 lbs
+            "12000681": "gelpack 250 GR",  # 16 lbs
+            "12000396": "gelpack 500 GR",  # 21 lbs
+            "12000201": "gelpack 500 GR",  # 11 lbs
+            "12000202": "gelpack 500 GR",  # 11 lbs
+            "12000314": "gelpack 250 GR",  # 16 lbs
+            "12000187": "gelpack 250 GR",  # 16 lbs
+            "12000192": "gelpack 250 GR",  # 16 lbs
+            "12000186": "gelpack 250 GR",  # 16 lbs
+            "12000877": "gelpack 250 GR",  # 12 lbs
+            "12000200": "gelpack 250 GR",  # 12 lbs
+            "12000199": "gelpack 250 GR",  # 12 lbs
+            "12000309": "gelpack 250 GR",  # 12 lbs
+            "12000915": "gelpack 250 GR",  # 12 lbs
+            "12000307": "gelpack 250 GR",  # 12 lbs
+            "12000330": "gelpack 250 GR",  # 12 lbs
+            "12000901": "gelpack 250 GR",  # 16 lbs
+            "12000755": "gelpack 250 GR",  # 16 lbs
+            "12000756": "gelpack 250 GR",  # 16 lbs
+            "12000754": "gelpack 250 GR",  # 16 lbs
+            "12000900": "gelpack 250 GR",  # 16 lbs
+            "12000289": "gelpack 250 GR",  # 16 lbs
+            "12000290": "gelpack 250 GR",  # 16 lbs
+            "12000291": "gelpack 250 GR",  # 16 lbs
+            "12000904": "gelpack 250 GR",  # 12 lbs
+            "12000373": "gelpack 250 GR",  # 12 lbs
+            "12001125": "gelpack 250 GR",  # 12 lbs
+            "12001158": "gelpack 250 GR",  # 12 lbs
+            "12001159": "gelpack 250 GR",  # 12 lbs
+            "12000970": "gelpack 250 GR",  # 16 lbs
+            "12000971": "gelpack 250 GR",  # 16 lbs
+            "12000973": "gelpack 250 GR",  # 16 lbs
+            "12000974": "gelpack 250 GR",  # 16 lbs
+            "12000265": "gelpack 500 GR",  # 10 lbs
+            "12001209": "gelpack 250 GR",  # 12 lbs
+
+            "12000210": "gelpack 250 GR",  # min 6 oz (Mignon FIX)
+
+            "12000966": "gelpack 500 GR",  # 36 lbs
+            "12000967": "gelpack 500 GR",  # 36 lbs
+            "12000968": "gelpack 500 GR",  # 36 lbs
+            "12000969": "gelpack 500 GR",  # 36 lbs
+            "12000975": "gelpack 500 GR",  # 36 lbs
+            "12000976": "gelpack 500 GR",  # 36 lbs
+            "12000977": "gelpack 500 GR",  # 36 lbs
+            "12000312": "gelpack 500 GR",  # 36 lbs
+            "12000737": "gelpack 500 GR",  # 36 lbs
+            "12000193": "gelpack 500 GR",  # 36 lbs
+            "12000207": "gelpack 500 GR",  # 36 lbs
+            "12000279": "gelpack 500 GR",  # 36 lbs
+            "12000188": "gelpack 500 GR",  # 36 lbs
+            "12000184": "gelpack 500 GR",  # 36 lbs
+            "12000189": "gelpack 500 GR",  # 36 lbs
+            "12000914": "gelpack 500 GR",  # 36 lbs
+            "12000913": "gelpack 500 GR",  # 36 lbs
+            "12000250": "gelpack 500 GR",  # 36 lbs
+            "12000190": "gelpack 500 GR",  # 36 lbs
+            "12001123": "gelpack 500 GR",  # 36 lbs
+            "12001124": "gelpack 500 GR",  # 36 lbs
+            "12001190": "gelpack 500 GR",  # 36 lbs
+            "12001191": "gelpack 500 GR",  # 36 lbs
+            "12001192": "gelpack 500 GR",  # 36 lbs
+            "12001193": "gelpack 500 GR",  # 36 lbs
+
+            "12000912": "gelpack 750 KG", # 25 lbs
+            "12000458": "gelpack 750 KG", # 35 lbs
+
+            "12000387": "gelpack 2000 KG", # 55 lbs
+            "12000368": "gelpack 2000 KG", # 55 lbs
+            "12000687": "gelpack 2000 KG"  # 55 lbs
         }
 
         # Redimensionar la ventana de SAP
