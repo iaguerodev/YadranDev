@@ -88,12 +88,12 @@ def main():
             "12001192": "gelpack 500 GR",  # 36 lbs
             "12001193": "gelpack 500 GR",  # 36 lbs
 
-            "12000912": "gelpack 750 KG", # 25 lbs
-            "12000458": "gelpack 750 KG", # 35 lbs
+            "12000912": "gelpack 750 GR", # 25 lbs
+            "12000458": "gelpack 750 GR", # 35 lbs
 
-            "12000387": "gelpack 2000 KG", # 55 lbs
-            "12000368": "gelpack 2000 KG", # 55 lbs
-            "12000687": "gelpack 2000 KG"  # 55 lbs
+            "12000387": "gelpack 2000 GR", # 55 lbs
+            "12000368": "gelpack 2000 GR", # 55 lbs
+            "12000687": "gelpack 2000 GR"  # 55 lbs
         }
 
         # Redimensionar la ventana de SAP
