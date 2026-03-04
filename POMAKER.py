@@ -11,6 +11,8 @@ from openpyxl import load_workbook
 import pandas as pd
 import winsound
 
+
+
 ## I-AGUERO ## BOT FRESH USA ##
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 print(f"Current working directory: {os.getcwd()}")
@@ -206,7 +208,7 @@ session.findById("wnd[0]").sendVKey (0)
 
 excel_file = 'PO.xlsx'
 worksheet = workbook.active
-ff_name = worksheet['O2'].value
+ff_name = worksheet['N2'].value
 workbook.close()
 
 # Get the FF code
@@ -377,12 +379,12 @@ criteria_and_values = {
     ("D / scl-OFF", "4-5", 12): "12001125",
 
     # TRIM E x 12 PBO
-    ("E", "2-3", 12): "12000307",
-    ("E", "3-4", 12): "12000330",
+    ("E-TRIM", "2-3", 12): "12000307",
+    ("E-TRIM", "3-4", 12): "12000330",
 
     # TRIM E x 36 PBO
-    ("E", "2-3", 36): "12000250",
-    ("E", "3-4", 36): "12000190",
+    ("E-TRIM", "2-3", 36): "12000250",
+    ("E-TRIM", "3-4", 36): "12000190",
 
     # TRIM E x 36 PBI
 
@@ -585,7 +587,8 @@ try:
 finally:
     po_workbook.close()
     #ejecuta script para gelpack/hielo
-    os.system('python REFRIGERANTEMATERIALv2.py')
+    ##os.system('python "REFRIGERANTEMATERIALv2-PBI SIN GELPACK.py"')
+    os.system('python "REFRIGERANTEMATERIALv2.py"')
     #abre excel de nuevo
     excel_file_path = os.path.join(os.path.dirname(__file__), "PO.xlsx")
     os.startfile(excel_file_path)

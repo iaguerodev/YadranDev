@@ -11,6 +11,7 @@ def main():
 
         # Diccionario para asignar códigos según el tipo de gelpack
         gelpack_codes = {
+            "gelpack 0 GR": "007",
             "gelpack 250 GR": "008",
             "gelpack 500 GR": "009",
             "gelpack 750 GR": "010",
@@ -20,15 +21,15 @@ def main():
 
         # Diccionario para asignar gelpack según el código de material
         material_gelpack = {
-            "12000882": "gelpack 500 GR",  # 11 lbs
-            "12000881": "gelpack 500 GR",  # 11 lbs
-            "12000678": "gelpack 250 GR",  # 16 lbs
-            "12000679": "gelpack 250 GR",  # 16 lbs
+            "12000882": "gelpack 500 GR",  # 11 lbs Porciones
+            "12000881": "gelpack 500 GR",  # 11 lbs Porciones
+            "12000678": "gelpack 250 GR",  # 16 lbs PBI
+            "12000679": "gelpack 250 GR",  # 16 lbs PBI
             "12000680": "gelpack 250 GR",  # 16 lbs
             "12000681": "gelpack 250 GR",  # 16 lbs
             "12000396": "gelpack 500 GR",  # 21 lbs
-            "12000201": "gelpack 500 GR",  # 11 lbs
-            "12000202": "gelpack 500 GR",  # 11 lbs
+            "12000201": "gelpack 250 GR",  # 11 lbs
+            "12000202": "gelpack 250 GR",  # 11 lbs
             "12000314": "gelpack 250 GR",  # 16 lbs
             "12000187": "gelpack 250 GR",  # 16 lbs
             "12000192": "gelpack 250 GR",  # 16 lbs
@@ -57,7 +58,7 @@ def main():
             "12000971": "gelpack 250 GR",  # 16 lbs
             "12000973": "gelpack 250 GR",  # 16 lbs
             "12000974": "gelpack 250 GR",  # 16 lbs
-            "12000265": "gelpack 500 GR",  # 10 lbs
+            "12000265": "gelpack 250 GR",  # 10 lbs
             "12001209": "gelpack 250 GR",  # 12 lbs
 
             "12000210": "gelpack 250 GR",  # min 6 oz (Mignon FIX)
@@ -99,8 +100,9 @@ def main():
         # Redimensionar la ventana de SAP
         time.sleep(1)  # Pausa para dar tiempo a cargar la ventana
         try:
-            session.findById("wnd[0]").resizeWorkingPane(118, 36, False)
-            print("Ventana redimensionada correctamente.")
+            # Resize working pane and click "btnBT_HEAD"
+            session.findById("wnd[0]").maximize()  # Maximiza la ventana
+
         except Exception as e:
             print(f"Error al redimensionar la ventana: {e}")
             return
