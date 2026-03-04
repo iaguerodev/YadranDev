@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import os
 import time
 
+
 # Get the directory of the script
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -18,17 +19,17 @@ worksheet = workbook.active
 driver = webdriver.Chrome()
 
 # URL of the login page
-login_url = "URL"
+login_url = "http://10.2.2.90/etbox_yadran/aspnet_vb/menu_principal.aspx"
 
 # Navigate to the login page
 driver.get(login_url)
 
 # Fill in the username and password fields using the By class
 username_field = driver.find_element(By.ID, "txtUserName")
-username_field.send_keys("USER")
+username_field.send_keys("iaguero")
 
 password_field = driver.find_element(By.ID, "txtUserPass")
-password_field.send_keys("PASSWORD")
+password_field.send_keys("iaguero17")
 
 # Submit the login form
 password_field.send_keys(Keys.RETURN)
@@ -37,7 +38,7 @@ password_field.send_keys(Keys.RETURN)
 time.sleep(5)
 
 # URL of the web page
-base_url = "http://192.168.6.233/etbox_yadran/aspnet_vb/ComexContratoVenta.aspx?iIdContratoVenta=5555&esCierre="
+base_url = "http://10.2.2.90/etbox_yadran/aspnet_vb/ComexContratoVenta.aspx?iIdContratoVenta=5555&esCierre="
 
 # Loop through Excel rows and update the web page
 for row in worksheet.iter_rows(min_row=2, values_only=True):  # Assuming data starts from row 2
